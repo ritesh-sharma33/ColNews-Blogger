@@ -1,0 +1,11 @@
+import 'package:zefyr/zefyr.dart';
+import 'package:quill_delta/quill_delta.dart';
+
+
+ZefyrScaffold(
+        child: ZefyrEditor(
+          controller: _controller, 
+          focusNode: _focusNode,
+          padding: EdgeInsets.all(15),
+        ),
+      ),
