@@ -95,3 +95,19 @@ Row(
                       },
                     )
                   ])
+
+
+ListView.builder(
+                      physics: ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (BuildContext context, int i) {
+                        return NewsCard(
+                          title: snapshot.data.documents[i]['blog_title'],
+                          subtitle: snapshot.data.documents[i]['blog_subtitle'],
+                          image: snapshot.data.documents[i]['blog_image'],
+                          body: snapshot.data.documents[i]['blog_body'],
+                          date: snapshot.data.documents[i]['date'],
+                        );
+                      },
+                    );
