@@ -66,7 +66,6 @@ class _SmallNewsCardState extends State<SmallNewsCard> {
         },
         child: Card(
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          
           child: Row(
             children: <Widget>[
               new Column(

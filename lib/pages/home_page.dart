@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:college_news_blog/pages/widget_testing_page.dart';
 import 'package:college_news_blog/widgets/news_card.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './post_blog/blog_post_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -150,16 +150,38 @@ class _HomePageState extends State<HomePage> {
               leading: Icon(Icons.bookmark, color: Colors.red[300],),
               title: Text('Saved News'),
             ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('Layout Settings', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+            ),
             ListTile(
-              leading: Icon(Icons.developer_mode),
-              title: Text('Demo page'),
-              onTap: () {
-                Navigator.push(
-                  context, 
-                  MaterialPageRoute(
-                    builder: (context) => WidgetTestingPage()
-                  )
-                );
+              leading: Icon(Icons.credit_card, color: Colors.red[300],),
+              title: Text('Big card'),
+              onTap: () async {
+                SharedPreferences shared = await SharedPreferences.getInstance();
+                shared.setBool('isBig', true);
+                shared.setBool('isSmall', false);
+                shared.setBool('isBoth', false);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.chrome_reader_mode, color: Colors.red[300]),
+              title: Text('Small card'),
+              onTap: () async {
+                SharedPreferences shared = await SharedPreferences.getInstance();
+                shared.setBool('isSmall', true);
+                shared.setBool('isBig', false);
+                shared.setBool('isBoth', false);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.calendar_view_day, color: Colors.red[300],),
+              title: Text('Both'),
+              onTap: () async {
+                SharedPreferences shared = await SharedPreferences.getInstance();
+                shared.setBool('isBoth', true);
+                shared.setBool('isBig', false);
+                shared.setBool('isSmall', false);
               },
             )
           ],
