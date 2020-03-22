@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:college_news_blog/pages/widget_testing_page.dart';
 import 'package:college_news_blog/widgets/news_card.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
@@ -148,6 +149,18 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               leading: Icon(Icons.bookmark, color: Colors.red[300],),
               title: Text('Saved News'),
+            ),
+            ListTile(
+              leading: Icon(Icons.developer_mode),
+              title: Text('Demo page'),
+              onTap: () {
+                Navigator.push(
+                  context, 
+                  MaterialPageRoute(
+                    builder: (context) => WidgetTestingPage()
+                  )
+                );
+              },
             )
           ],
         ),

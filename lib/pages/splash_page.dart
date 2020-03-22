@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:college_news_blog/pages/home_page.dart';
+import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -72,27 +73,35 @@ class _SplashPageState extends State<SplashPage> {
       )
     );
   }
+  String _getSplashLogo() {
+    return DynamicTheme.of(context).brightness == Brightness.light ? 'assets/images/logo_light.png' : 'assets/images/logo_dark.png';
+  }
+
+  Color _getBackgroundColor() {
+    return DynamicTheme.of(context).brightness == Brightness.light ? Colors.white : Colors.black;
+  }
 
   @override
   Widget build(BuildContext context) {
+    final deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: _getBackgroundColor(),
       body: Center(
         child: Container(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image.asset('assets/images/col_news_blogger.png', height: 200, width: 200,),
+              Image.asset(_getSplashLogo(), height: deviceHeight * 0.50, width: deviceHeight * 0.50,),
               SizedBox(height: 10,),
-              Text(
-                "ColNews Blogger",
-                style: TextStyle(
-                  color: Colors.blueAccent,
-                  fontSize: 30,
-                  fontFamily: 'Baloo'
-                ),
-              )
+              // Text(
+              //   "ColNews Blogger",
+              //   style: TextStyle(
+              //     color: Colors.blueAccent,
+              //     fontSize: 30,
+              //     fontFamily: 'Baloo'
+              //   ),
+              // )
             ],
           ),
         ),

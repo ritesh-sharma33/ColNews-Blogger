@@ -9,3 +9,89 @@ ZefyrScaffold(
           padding: EdgeInsets.all(15),
         ),
       ),
+
+
+
+
+
+
+
+
+
+Row(
+                    children: <Widget>[
+                      IconButton(
+                        icon: this.isLiked
+                            ? Icon(
+                                Icons.favorite,
+                                color: Colors.red[300],
+                              )
+                            : Icon(Icons.favorite_border),
+                        onPressed: () {
+                          if (!this.isLiked) {
+                            setState(() {
+                              this.isLiked = true;
+                              this.likes++;
+                            });
+                          } else {
+                            setState(() {
+                              this.isLiked = false;
+                              this.likes--;
+                            });
+                          }
+                        },
+                      ),
+                      Text(
+                        "${this.likes}",
+                        style: TextStyle(fontFamily: 'Baloo'),
+                      )
+                    ],
+                  ),
+                  Row(children: [
+                    IconButton(
+                      icon: Icon(Icons.bookmark_border),
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SimpleDialog(
+                                elevation: 10,
+                                children: <Widget>[
+                                  Center(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text("Post Saved Successfully"),
+                                        RaisedButton(
+                                          elevation: 0,
+                                          child: Text(
+                                            "OK",
+                                            style: TextStyle(color: Colors.red),
+                                          ),
+                                          color: Colors.white,
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                                backgroundColor: Colors.white,
+                                title: Center(
+                                  child: Text(
+                                    'Post Saved',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ),
+                              );
+                            });
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.share),
+                      onPressed: () {
+                        Share.share(
+                            "Hey read this news from ColNews Blogger: ${widget.title}");
+                      },
+                    )
+                  ])
