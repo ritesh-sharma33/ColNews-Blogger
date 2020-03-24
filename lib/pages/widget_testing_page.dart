@@ -21,7 +21,7 @@ class WidgetTestingPage extends StatelessWidget {
               body:
                   "A sudden rainfall and change in weather in the night has caused the cold, fever and coughing to many students in the college. The college administration is willing to take strong action in this concern. This will continue if the students will not take care of themselves, said the hostel warden of KP-6. Many students are advised to get admitted in the hospital nearby to avoid the worst circumstances. ",
               subtitle:
-                  "This is the effect of corona and this will continue if not taken care. Gedu is maa ka bhosada gandu tracker ko apne naam ka patent nikal lega madarchod ka baccha uska lauda khada nahi hota hai Varshant ko nikalne k liye uska padosi help kiya tha.",
+                  "This is the effect of corona and this will continue if not taken care. Testing the subtitle property...",
               date: "16-March-2020",
             )
           ],
