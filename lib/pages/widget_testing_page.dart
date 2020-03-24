@@ -16,7 +16,7 @@ class WidgetTestingPage extends StatelessWidget {
           children: <Widget>[
             SmallNewsCard(
               title:
-                  "Students suffering from fever, cold and cough due to heavy rain and change in weather",
+                  "Students suffering from fever, cold and cough due to heavy rain and change in weather. Corona is showing it's effects",
               image: "https://static.toiimg.com/photo/72995118.cms",
               body:
                   "A sudden rainfall and change in weather in the night has caused the cold, fever and coughing to many students in the college. The college administration is willing to take strong action in this concern. This will continue if the students will not take care of themselves, said the hostel warden of KP-6. Many students are advised to get admitted in the hospital nearby to avoid the worst circumstances. ",
