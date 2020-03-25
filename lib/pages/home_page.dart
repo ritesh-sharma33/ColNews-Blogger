@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool isSmall = false, isBig = false, isBoth = true;
+  bool _isVisible = false;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -31,7 +32,6 @@ class _HomePageState extends State<HomePage> {
       this.isSmall = shared.getBool('isSmall') ?? false;
       this.isBig = shared.getBool('isBig') ?? false;
     });
-    
   }
 
   @override
@@ -47,19 +47,27 @@ class _HomePageState extends State<HomePage> {
       itemCount: snapshot.data.documents.length,
       itemBuilder: (context, i) {
         return i % 3 == 0
-            ? SmallNewsCard(
-                title: snapshot.data.documents[i]['blog_title'],
-                subtitle: snapshot.data.documents[i]['blog_subtitle'],
-                image: snapshot.data.documents[i]['blog_image'],
-                body: snapshot.data.documents[i]['blog_body'],
-                date: snapshot.data.documents[i]['date'],
+            ? AnimatedOpacity(
+                duration: Duration(milliseconds: 500),
+                opacity: 1.0,
+                child: SmallNewsCard(
+                  title: snapshot.data.documents[i]['blog_title'],
+                  subtitle: snapshot.data.documents[i]['blog_subtitle'],
+                  image: snapshot.data.documents[i]['blog_image'],
+                  body: snapshot.data.documents[i]['blog_body'],
+                  date: snapshot.data.documents[i]['date'],
+                ),
               )
-            : NewsCard(
-                title: snapshot.data.documents[i]['blog_title'],
-                subtitle: snapshot.data.documents[i]['blog_subtitle'],
-                image: snapshot.data.documents[i]['blog_image'],
-                body: snapshot.data.documents[i]['blog_body'],
-                date: snapshot.data.documents[i]['date'],
+            : AnimatedOpacity(
+                duration: Duration(milliseconds: 500),
+                opacity: 1.0,
+                child: NewsCard(
+                  title: snapshot.data.documents[i]['blog_title'],
+                  subtitle: snapshot.data.documents[i]['blog_subtitle'],
+                  image: snapshot.data.documents[i]['blog_image'],
+                  body: snapshot.data.documents[i]['blog_body'],
+                  date: snapshot.data.documents[i]['date'],
+                ),
               );
       },
     );
@@ -187,7 +195,7 @@ class _HomePageState extends State<HomePage> {
                       return _getBothCardList(snapshot);
                     } else if (this.isSmall) {
                       return _getSmallCardList(snapshot);
-                    } else if(this.isBig) {
+                    } else if (this.isBig) {
                       return _getBigCardList(snapshot);
                     }
                   } else {
@@ -237,7 +245,14 @@ class _HomePageState extends State<HomePage> {
                 Icons.perm_identity,
                 color: Colors.red[300],
               ),
-              title: Text('My Profile'),
+              title: Text(
+                'My Profile',
+                style: TextStyle(
+                  fontFamily: 'Baloo',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16
+                ),
+              ),
             ),
             ListTile(
               leading: Icon(
@@ -245,8 +260,18 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.red[300],
               ),
               title: Theme.of(context).brightness == Brightness.light
-                  ? Text("Enable Dark Theme")
-                  : Text("Enable Light Theme"),
+                  ? Text("Enable Dark Theme",
+                style: TextStyle(
+                  fontFamily: 'Baloo',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16
+                ),)
+                  : Text("Enable Light Theme",
+                style: TextStyle(
+                  fontFamily: 'Baloo',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16
+                ),),
               onTap: () {
                 _changeBrightness();
                 Navigator.pop(context);
@@ -257,14 +282,23 @@ class _HomePageState extends State<HomePage> {
                 Icons.bookmark,
                 color: Colors.red[300],
               ),
-              title: Text('Saved News'),
+              title: Text('Saved News',
+                style: TextStyle(
+                  fontFamily: 'Baloo',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16
+                ),),
             ),
             Divider(),
             Padding(
               padding: const EdgeInsets.only(left: 12, top: 8, bottom: 8),
               child: Text(
                 'Layout Settings',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontFamily: 'Baloo',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20
+                ),
               ),
             ),
             ListTile(
@@ -272,14 +306,19 @@ class _HomePageState extends State<HomePage> {
                 Icons.credit_card,
                 color: Colors.red[300],
               ),
-              title: Text('Big card'),
+              title: Text('Big card',
+                style: TextStyle(
+                  fontFamily: 'Baloo',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16
+                ),),
               onTap: () async {
                 SharedPreferences shared =
                     await SharedPreferences.getInstance();
                 setState(() {
                   shared.setBool('isBig', true);
                   shared.setBool('isSmall', false);
-                  shared.setBool('isBoth', false);  
+                  shared.setBool('isBoth', false);
                   _getDefaults();
                 });
                 Navigator.pop(context);
@@ -287,7 +326,12 @@ class _HomePageState extends State<HomePage> {
             ),
             ListTile(
               leading: Icon(Icons.chrome_reader_mode, color: Colors.red[300]),
-              title: Text('Small card'),
+              title: Text('Small card',
+                style: TextStyle(
+                  fontFamily: 'Baloo',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16
+                ),),
               onTap: () async {
                 SharedPreferences shared =
                     await SharedPreferences.getInstance();
@@ -305,7 +349,12 @@ class _HomePageState extends State<HomePage> {
                 Icons.calendar_view_day,
                 color: Colors.red[300],
               ),
-              title: Text('Both'),
+              title: Text('Both',
+                style: TextStyle(
+                  fontFamily: 'Baloo',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16
+                ),),
               onTap: () async {
                 SharedPreferences shared =
                     await SharedPreferences.getInstance();

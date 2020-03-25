@@ -1,4 +1,5 @@
 import 'package:college_news_blog/pages/home_page.dart';
+import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as p;
 import 'package:firebase_storage/firebase_storage.dart';
@@ -75,8 +76,15 @@ class _BlogImageUploadState extends State<BlogImageUpload> {
     final deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Image Upload'),
+        elevation: 0,
+        backgroundColor: DynamicTheme.of(context).data.backgroundColor,
+        iconTheme: IconThemeData(
+          color: DynamicTheme.of(context).data.iconTheme.color
+        ),
+        centerTitle: true,
+        title: Text('Image Upload', style: TextStyle(fontFamily: 'Baloo', fontSize: 23, fontWeight: FontWeight.bold, color: DynamicTheme.of(context).data.textTheme.subtitle.color),),
       ),
+      backgroundColor: DynamicTheme.of(context).data.backgroundColor,
       body: Center(
         child: ListView(
           children: <Widget>[
@@ -89,7 +97,7 @@ class _BlogImageUploadState extends State<BlogImageUpload> {
                 padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 70),
                 child: RaisedButton(
                 color: Colors.red[400],
-                child: Text('Choose from file'),
+                child: Text('Choose from file', style: TextStyle(fontFamily: 'Baloo', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20),),
                 onPressed: filePicker,
             ),
               ),
@@ -100,7 +108,13 @@ class _BlogImageUploadState extends State<BlogImageUpload> {
                 child: RaisedButton(
                   color: Colors.red[400],
                   child: Text(
-                    this.isUploading ? "Uploading..." : 'Upload'
+                    this.isUploading ? "Uploading..." : 'Upload',
+                    style: TextStyle(
+                      fontFamily: 'Baloo',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 20
+                    ),
                   ), 
                   onPressed: () {
                     setState(() {

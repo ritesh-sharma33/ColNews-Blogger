@@ -33,7 +33,7 @@ class _SmallNewsCardState extends State<SmallNewsCard> {
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
     return Container(
-      height: deviceHeight * 0.205,
+      height: deviceHeight * 0.215,
       child: InkWell(
         onDoubleTap: () {
           if (!this.isLiked) {
@@ -75,7 +75,7 @@ class _SmallNewsCardState extends State<SmallNewsCard> {
                     child: Column(
                       children: <Widget>[
                         new SizedBox(
-                          height: deviceHeight * 0.1935,
+                          height: deviceHeight * 0.2025,
                           width: 130,
                           child: new Image.network(
                             widget.image,
@@ -89,7 +89,7 @@ class _SmallNewsCardState extends State<SmallNewsCard> {
                 ],
               ),
               SizedBox(
-                width: 5,
+                width: 7.5,
               ),
               Expanded(
                 child: Column(
