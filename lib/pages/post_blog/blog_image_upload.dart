@@ -1,3 +1,4 @@
+import 'package:college_news_blog/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as p;
 import 'package:firebase_storage/firebase_storage.dart';
@@ -12,10 +13,14 @@ class BlogImageUpload extends StatefulWidget {
 
 class _BlogImageUploadState extends State<BlogImageUpload> {
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   File file;
   String fileName = '';
   bool isUploaded = false;
   String downloadUrl = '';
+  bool isLoaded = false;
+  bool isUploading = false;
 
   Future<void> _uploadFile(File file, String filename) async {
     StorageReference storageReference;
@@ -28,6 +33,12 @@ class _BlogImageUploadState extends State<BlogImageUpload> {
       this.downloadUrl = url;
     });
     print('URL is $url');
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomePage()
+      )
+    );
   }
 
   Future filePicker() async {
@@ -35,8 +46,9 @@ class _BlogImageUploadState extends State<BlogImageUpload> {
       file = await FilePicker.getFile(type: FileType.image);
       setState(() {
         fileName = p.basename(file.path);
+        isLoaded = true;
       });
-      _uploadFile(file, fileName);
+      
     } on PlatformException catch(e) {
       showDialog(
         context: context,
@@ -66,17 +78,38 @@ class _BlogImageUploadState extends State<BlogImageUpload> {
         title: Text('Image Upload'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: ListView(
           children: <Widget>[
-            this.isUploaded == true
-              ? Image.network(this.downloadUrl, height: deviceHeight * 0.6,)
-              : SizedBox(height: 5,),
-            RaisedButton(
-              child: Text('Select Image'),
-              onPressed: filePicker,
-            )
+            SizedBox(height: deviceHeight * 0.05,),
+            this.isLoaded ? Image.file(file, height: deviceHeight * 0.5,) : Image.asset('assets/images/cloud.png', height: deviceHeight * 0.4),
+            this.isLoaded ? 
+              SizedBox() 
+              : 
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 70),
+                child: RaisedButton(
+                color: Colors.red[400],
+                child: Text('Choose from file'),
+                onPressed: filePicker,
+            ),
+              ),
+            SizedBox(height: deviceHeight * 0.075,),
+            this.isLoaded ? 
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50),
+                child: RaisedButton(
+                  color: Colors.red[400],
+                  child: Text(
+                    this.isUploading ? "Uploading..." : 'Upload'
+                  ), 
+                  onPressed: () {
+                    setState(() {
+                      this.isUploading = true;
+                    });
+                    _uploadFile(file, fileName);
+            },),
+              )
+            : SizedBox()
           ],
         ),
       ),

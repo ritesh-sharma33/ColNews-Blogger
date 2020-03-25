@@ -249,6 +249,7 @@ class _HomePageState extends State<HomePage> {
                   : Text("Enable Light Theme"),
               onTap: () {
                 _changeBrightness();
+                Navigator.pop(context);
               },
             ),
             ListTile(
@@ -258,11 +259,12 @@ class _HomePageState extends State<HomePage> {
               ),
               title: Text('Saved News'),
             ),
+            Divider(),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(left: 12, top: 8, bottom: 8),
               child: Text(
                 'Layout Settings',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ),
             ListTile(
@@ -280,7 +282,7 @@ class _HomePageState extends State<HomePage> {
                   shared.setBool('isBoth', false);  
                   _getDefaults();
                 });
-                
+                Navigator.pop(context);
               },
             ),
             ListTile(
@@ -295,7 +297,7 @@ class _HomePageState extends State<HomePage> {
                   shared.setBool('isBoth', false);
                   _getDefaults();
                 });
-                
+                Navigator.pop(context);
               },
             ),
             ListTile(
@@ -313,6 +315,7 @@ class _HomePageState extends State<HomePage> {
                   shared.setBool('isSmall', false);
                   _getDefaults();
                 });
+                Navigator.pop(context);
               },
             )
           ],

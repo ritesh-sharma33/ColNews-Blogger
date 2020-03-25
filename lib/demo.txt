@@ -111,3 +111,13 @@ ListView.builder(
                         );
                       },
                     );
+
+
+
+this.isUploaded == true
+              ? Image.network(this.downloadUrl, height: deviceHeight * 0.6,)
+              : SizedBox(height: 5,),
+            RaisedButton(
+              child: Text('Select Image'),
+              onPressed: filePicker,
+            )

@@ -26,7 +26,6 @@ class _BlogPostPageState extends State<BlogPostPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
         elevation: 2.5,
         centerTitle: false,
         title: TextField(

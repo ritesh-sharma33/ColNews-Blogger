@@ -145,9 +145,11 @@ class _NewsCardState extends State<NewsCard> {
               SizedBox(height: 6.0,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Html(
-                  data: widget.subtitle != null ? widget.subtitle : "No subtitle",
-                  defaultTextStyle: TextStyle(
+                child: Text(
+                  widget.subtitle != null ? widget.subtitle : widget.body,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
                     fontSize: deviceHeight * 0.02,
                     fontFamily: 'Baloo'
                   ),
