@@ -5,8 +5,8 @@ import 'package:share/share.dart';
 import '../pages/blog_details_page.dart';
 
 class SmallNewsCard extends StatefulWidget {
-  final String title, subtitle, image, body, date;
-  SmallNewsCard({this.title, this.subtitle, this.image, this.body, this.date});
+  final String title, subtitle, image, body, date, id;
+  SmallNewsCard({this.id, this.title, this.subtitle, this.image, this.body, this.date});
 
   @override
   _SmallNewsCardState createState() => _SmallNewsCardState();

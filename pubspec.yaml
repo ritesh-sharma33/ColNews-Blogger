@@ -32,6 +32,7 @@ dependencies:
   file_picker:
   share:
   sqflite:
+  path:
   zefyr:
     git:
       url: git://github.com/masewo/zefyr.git

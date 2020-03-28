@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:college_news_blog/pages/saved_blogs_page.dart';
 import 'package:college_news_blog/widgets/news_card.dart';
 import 'package:college_news_blog/widgets/small_news_card.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
@@ -288,6 +289,14 @@ class _HomePageState extends State<HomePage> {
                   fontWeight: FontWeight.bold,
                   fontSize: 16
                 ),),
+              onTap: () {
+                Navigator.push(
+                  context, 
+                  MaterialPageRoute(
+                    builder: (context) => SavedBlogPage()
+                  )  
+                );
+              },
             ),
             Divider(),
             Padding(

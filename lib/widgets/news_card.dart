@@ -1,14 +1,16 @@
 import 'dart:math';
 
+import 'package:college_news_blog/models/blog.dart';
 import 'package:college_news_blog/pages/blog_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:share/share.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart' as p;
 
 class NewsCard extends StatefulWidget {
-  final String title, subtitle, image, body, date;
-  NewsCard({this.title, this.subtitle, this.image, this.body, this.date});
+  final String title, subtitle, image, body, date, id;
+  NewsCard({this.id, this.title, this.subtitle, this.image, this.body, this.date});
 
   @override
   _NewsCardState createState() => _NewsCardState();
@@ -31,8 +33,32 @@ class _NewsCardState extends State<NewsCard> {
   int views, likes;
   bool isLiked = false;
 
-  Future _saveBlog() async {
-    
+  Future _savePost() async {
+
+    Blog blog = new Blog(
+      blogTitle: widget.title,
+      blogBody: widget.body,
+      blogImage: widget.image,
+      blogSubtitle: widget.subtitle,
+      date: widget.date,
+    );
+
+    final Future<Database> database = openDatabase(
+      p.join(await getDatabasesPath(), 'blogs.db'),
+      onCreate: (db, version) {
+        return db.execute(
+          "CREATE TABLE blogs(blogTitle TEXT, blogSubtitle TEXT, blogBody TEXT, blogImage TEXT, date TEXT)"
+        );
+      },
+      version: 1
+    );
+
+    final Database db = await database;
+    return db.insert(
+      'blogs',
+      Blog.toMap(blog),
+      conflictAlgorithm: ConflictAlgorithm.replace
+    );
   }
 
   @override
@@ -174,73 +200,70 @@ class _NewsCardState extends State<NewsCard> {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    IconButton(
-                      icon: this.isLiked
-                          ? Icon(
-                              Icons.favorite,
-                              color: Colors.red[300],
-                            )
-                          : Icon(Icons.favorite_border),
-                      onPressed: () {
-                        if (!this.isLiked) {
-                          setState(() {
-                            this.isLiked = true;
-                            this.likes++;
-                          });
-                        } else {
-                          setState(() {
-                            this.isLiked = false;
-                            this.likes--;
-                          });
-                        }
-                      },
-                    ),
-                  ],
+                IconButton(
+                  icon: this.isLiked
+                      ? Icon(
+                          Icons.favorite,
+                          color: Colors.red[300],
+                        )
+                      : Icon(Icons.favorite_border),
+                  onPressed: () {
+                    if (!this.isLiked) {
+                      setState(() {
+                        this.isLiked = true;
+                        this.likes++;
+                      });
+                    } else {
+                      setState(() {
+                        this.isLiked = false;
+                        this.likes--;
+                      });
+                    }
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.bookmark_border),
+                  onPressed: () {
+                    _savePost();
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return SimpleDialog(
+                            elevation: 10,
+                            children: <Widget>[
+                              Center(
+                                child: Column(
+                                  children: <Widget>[
+                                    Text("Post Saved Successfully"),
+                                    RaisedButton(
+                                      elevation: 0,
+                                      child: Text(
+                                        "OK",
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                      color: Colors.white,
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                            backgroundColor: Colors.white,
+                            title: Center(
+                              child: Text(
+                                'Post Saved',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ),
+                          );
+                        });
+                  },
                 ),
                 Row(children: [
-                  IconButton(
-                    icon: Icon(Icons.bookmark_border),
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return SimpleDialog(
-                              elevation: 10,
-                              children: <Widget>[
-                                Center(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text("Post Saved Successfully"),
-                                      RaisedButton(
-                                        elevation: 0,
-                                        child: Text(
-                                          "OK",
-                                          style: TextStyle(color: Colors.red),
-                                        ),
-                                        color: Colors.white,
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                              backgroundColor: Colors.white,
-                              title: Center(
-                                child: Text(
-                                  'Post Saved',
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              ),
-                            );
-                          });
-                    },
-                  ),
                   IconButton(
                     icon: Icon(Icons.share),
                     onPressed: () {
