@@ -4,30 +4,7 @@ import 'package:college_news_blog/pages/home_page.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-class SlideRightRoute extends PageRouteBuilder {
-  final Widget page;
-  SlideRightRoute({this.page})
-    : super(
-      pageBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondayAnimation,
-      ) => page,
-      transitionsBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        Widget child
-      ) => SlideTransition(
-        position: Tween<Offset>(
-          begin: const Offset(1.0, 0.0),
-          end: Offset.zero,
-        ).animate(animation),
-        child: child,
-      )
-    );
-}
+import '../widgets/slide_right_route.dart';
 
 class SplashPage extends StatefulWidget {
 
@@ -41,23 +18,6 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     startTimerDuration();
-  }
-
-  Route _createRoute() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => HomePage(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = Offset(0.0, 1.0);
-        var end = Offset.zero;
-        var curve = Curves.ease;
-
-        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      }
-    );
   }
 
   startTimerDuration() {
@@ -94,14 +54,6 @@ class _SplashPageState extends State<SplashPage> {
             children: <Widget>[
               Image.asset(_getSplashLogo(), height: deviceHeight * 0.50, width: deviceHeight * 0.50,),
               SizedBox(height: 10,),
-              // Text(
-              //   "ColNews Blogger",
-              //   style: TextStyle(
-              //     color: Colors.blueAccent,
-              //     fontSize: 30,
-              //     fontFamily: 'Baloo'
-              //   ),
-              // )
             ],
           ),
         ),

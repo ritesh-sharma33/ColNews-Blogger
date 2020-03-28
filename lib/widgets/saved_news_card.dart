@@ -3,6 +3,8 @@ import 'dart:math';
 import '../pages/blog_details_page.dart';
 import 'package:flutter_html/flutter_html.dart';
 
+import '../widgets/slide_right_route.dart';
+
 class SavedNewsCard extends StatefulWidget {
   final String title, subtitle, image, body, date;
   SavedNewsCard(this.title, this.subtitle, this.image, this.body, this.date);
@@ -38,16 +40,16 @@ class _SavedNewsCardState extends State<SavedNewsCard> {
         onTap: () {
           Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => BlogDetailsPage(
-                        body: this.widget.body,
-                        title: this.widget.title,
-                        subtitle: this.widget.subtitle,
-                        date: this.widget.date,
-                        image: this.widget.image,
-                        likes: this.likes,
-                        views: this.views,
-                      )));
+              SlideRightRoute(
+                  page: BlogDetailsPage(
+                body: widget.body,
+                title: widget.title,
+                subtitle: widget.subtitle,
+                date: widget.date,
+                image: widget.image,
+                likes: this.likes,
+                views: this.views,
+              )));
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

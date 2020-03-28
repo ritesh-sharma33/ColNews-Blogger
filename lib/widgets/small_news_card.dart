@@ -6,6 +6,7 @@ import 'package:share/share.dart';
 import '../pages/blog_details_page.dart';
 import 'package:path/path.dart' as p;
 
+import '../widgets/slide_right_route.dart';
 import '../models/blog.dart';
 
 class SmallNewsCard extends StatefulWidget {
@@ -82,9 +83,9 @@ class _SmallNewsCardState extends State<SmallNewsCard> {
         },
         onTap: () {
           Navigator.push(
-            context, 
-            MaterialPageRoute(
-              builder: (context) => BlogDetailsPage(
+              context,
+              SlideRightRoute(
+                  page: BlogDetailsPage(
                 body: widget.body,
                 title: widget.title,
                 subtitle: widget.subtitle,
@@ -92,9 +93,7 @@ class _SmallNewsCardState extends State<SmallNewsCard> {
                 image: widget.image,
                 likes: this.likes,
                 views: this.views,
-              )
-            )
-          );
+              )));
         },
         child: Card(
           clipBehavior: Clip.antiAliasWithSaveLayer,

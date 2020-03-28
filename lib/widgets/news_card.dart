@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:college_news_blog/models/blog.dart';
 import 'package:college_news_blog/pages/blog_details_page.dart';
+import 'package:college_news_blog/widgets/slide_right_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:share/share.dart';
@@ -11,7 +12,8 @@ import 'package:dynamic_theme/dynamic_theme.dart';
 
 class NewsCard extends StatefulWidget {
   final String title, subtitle, image, body, date, id;
-  NewsCard({this.id, this.title, this.subtitle, this.image, this.body, this.date});
+  NewsCard(
+      {this.id, this.title, this.subtitle, this.image, this.body, this.date});
 
   @override
   _NewsCardState createState() => _NewsCardState();
@@ -35,7 +37,6 @@ class _NewsCardState extends State<NewsCard> {
   bool isLiked = false;
 
   Future _savePost() async {
-
     Blog blog = new Blog(
       blogTitle: widget.title,
       blogBody: widget.body,
@@ -44,22 +45,16 @@ class _NewsCardState extends State<NewsCard> {
       date: widget.date,
     );
 
-    final Future<Database> database = openDatabase(
-      p.join(await getDatabasesPath(), 'colnewsblogger.db'),
-      onCreate: (db, version) {
-        return db.execute(
-          "CREATE TABLE blogs(blogTitle TEXT, blogSubtitle TEXT, blogBody TEXT, blogImage TEXT, date TEXT)"
-        );
-      },
-      version: 1
-    );
+    final Future<Database> database =
+        openDatabase(p.join(await getDatabasesPath(), 'colnewsblogger.db'),
+            onCreate: (db, version) {
+      return db.execute(
+          "CREATE TABLE blogs(blogTitle TEXT, blogSubtitle TEXT, blogBody TEXT, blogImage TEXT, date TEXT)");
+    }, version: 1);
 
     final Database db = await database;
-    return db.insert(
-      'blogs',
-      Blog.toMap(blog),
-      conflictAlgorithm: ConflictAlgorithm.replace
-    );
+    return db.insert('blogs', Blog.toMap(blog),
+        conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   @override
@@ -84,16 +79,16 @@ class _NewsCardState extends State<NewsCard> {
         onTap: () {
           Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => BlogDetailsPage(
-                        body: widget.body,
-                        title: widget.title,
-                        subtitle: widget.subtitle,
-                        date: widget.date,
-                        image: widget.image,
-                        likes: this.likes,
-                        views: this.views,
-                      )));
+              SlideRightRoute(
+                  page: BlogDetailsPage(
+                body: widget.body,
+                title: widget.title,
+                subtitle: widget.subtitle,
+                date: widget.date,
+                image: widget.image,
+                likes: this.likes,
+                views: this.views,
+              )));
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -229,47 +224,55 @@ class _NewsCardState extends State<NewsCard> {
                   onPressed: () {
                     _savePost();
                     showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return SimpleDialog(
-                                    elevation: 10,
-                                    children: <Widget>[
-                                      Center(
-                                        child: Column(
-                                          children: <Widget>[
-                                            Text(
-                                              "Post Saved Successfully",
-                                              style: TextStyle(
-                                                color: DynamicTheme.of(context).data.textTheme.subtitle.color
-                                              ),
-                                            ),
-                                            SizedBox(height: 20,),
-                                            RaisedButton(
-                                              elevation: 0,
-                                              child: Text(
-                                                "OK",
-                                                style:
-                                                    TextStyle(color: Colors.red),
-                                              ),
-                                              color: Colors.white,
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                    backgroundColor: DynamicTheme.of(context).data.backgroundColor,
-                                    title: Center(
-                                      child: Text(
-                                        'Post Saved',
-                                        style: TextStyle(
-                                          color: DynamicTheme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black
-                                        ),
-                                      ),
+                        context: context,
+                        builder: (BuildContext context) {
+                          return SimpleDialog(
+                            elevation: 10,
+                            children: <Widget>[
+                              Center(
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      "Post Saved Successfully",
+                                      style: TextStyle(
+                                          color: DynamicTheme.of(context)
+                                              .data
+                                              .textTheme
+                                              .subtitle
+                                              .color),
                                     ),
-                                  );
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    RaisedButton(
+                                      elevation: 0,
+                                      child: Text(
+                                        "OK",
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                      color: Colors.white,
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                            backgroundColor:
+                                DynamicTheme.of(context).data.backgroundColor,
+                            title: Center(
+                              child: Text(
+                                'Post Saved',
+                                style: TextStyle(
+                                    color:
+                                        DynamicTheme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Colors.white
+                                            : Colors.black),
+                              ),
+                            ),
+                          );
                         });
                   },
                 ),
