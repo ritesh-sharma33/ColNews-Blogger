@@ -1,8 +1,12 @@
 import 'package:dynamic_theme/dynamic_theme.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:share/share.dart';
 import '../pages/blog_details_page.dart';
+import 'package:path/path.dart' as p;
+
+import '../models/blog.dart';
 
 class SmallNewsCard extends StatefulWidget {
   final String title, subtitle, image, body, date, id;
@@ -17,6 +21,34 @@ class _SmallNewsCardState extends State<SmallNewsCard> {
     Random rnd = new Random();
     int r = min + rnd.nextInt(max - min);
     return r;
+  }
+
+  Future _savePost() async {
+
+    Blog blog = new Blog(
+      blogTitle: widget.title,
+      blogBody: widget.body,
+      blogImage: widget.image,
+      blogSubtitle: widget.subtitle,
+      date: widget.date,
+    );
+
+    final Future<Database> database = openDatabase(
+      p.join(await getDatabasesPath(), 'colnewsblogger.db'),
+      onCreate: (db, version) {
+        return db.execute(
+          "CREATE TABLE blogs(blogTitle TEXT, blogSubtitle TEXT, blogBody TEXT, blogImage TEXT, date TEXT)"
+        );
+      },
+      version: 1
+    );
+
+    final Database db = await database;
+    return db.insert(
+      'blogs',
+      Blog.toMap(blog),
+      conflictAlgorithm: ConflictAlgorithm.replace
+    );
   }
 
   @override
@@ -185,6 +217,7 @@ class _SmallNewsCardState extends State<SmallNewsCard> {
                         IconButton(
                           icon: Icon(Icons.bookmark_border),
                           onPressed: () {
+                            _savePost();
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -194,7 +227,13 @@ class _SmallNewsCardState extends State<SmallNewsCard> {
                                       Center(
                                         child: Column(
                                           children: <Widget>[
-                                            Text("Post Saved Successfully"),
+                                            Text(
+                                              "Post Saved Successfully",
+                                              style: TextStyle(
+                                                color: DynamicTheme.of(context).data.textTheme.subtitle.color
+                                              ),
+                                            ),
+                                            SizedBox(height: 20,),
                                             RaisedButton(
                                               elevation: 0,
                                               child: Text(
@@ -211,11 +250,13 @@ class _SmallNewsCardState extends State<SmallNewsCard> {
                                         ),
                                       )
                                     ],
-                                    backgroundColor: Colors.white,
+                                    backgroundColor: DynamicTheme.of(context).data.backgroundColor,
                                     title: Center(
                                       child: Text(
                                         'Post Saved',
-                                        style: TextStyle(color: Colors.black),
+                                        style: TextStyle(
+                                          color: DynamicTheme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black
+                                        ),
                                       ),
                                     ),
                                   );

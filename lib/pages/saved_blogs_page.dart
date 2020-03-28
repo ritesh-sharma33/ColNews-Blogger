@@ -1,5 +1,4 @@
 import 'package:college_news_blog/models/blog.dart';
-import 'package:college_news_blog/widgets/news_card.dart';
 import 'package:college_news_blog/widgets/saved_news_card.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,7 @@ class _SavedBlogPageState extends State<SavedBlogPage> {
 
   Future<List<Blog>> posts() async {
     final Future<Database> database = openDatabase(
-      p.join(await getDatabasesPath(), 'blogs.db'),
+      p.join(await getDatabasesPath(), 'colnewsblogger.db'),
       onCreate: (db, version) {
         return db.execute(
           "CREATE TABLE blogs(blogTitle TEXT, blogSubtitle TEXT, blogBody TEXT, blogImage TEXT, date TEXT)"
@@ -59,14 +58,28 @@ class _SavedBlogPageState extends State<SavedBlogPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
+        iconTheme: IconThemeData(
+          color: DynamicTheme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black
+        ),
         backgroundColor: DynamicTheme.of(context).data.backgroundColor,
-        title: Text('Saved News'),
+        title: Text('Saved News',
+          style: TextStyle(
+            color: DynamicTheme.of(context).data.textTheme.subtitle.color
+          ), 
+        ),
       ),
       body: isLoaded
         ? ListView.builder(
           itemCount: savedPosts.length,
           itemBuilder: (context, index) {
-            return SavedNewsCard(savedPosts[index].blogTitle);
+            return SavedNewsCard(
+              savedPosts[index].blogTitle, 
+              savedPosts[index].blogSubtitle,
+              savedPosts[index].blogImage,
+              savedPosts[index].blogBody,
+              savedPosts[index].date
+            );
           },
         )
         :

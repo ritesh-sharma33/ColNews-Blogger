@@ -7,6 +7,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:share/share.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
+import 'package:dynamic_theme/dynamic_theme.dart';
 
 class NewsCard extends StatefulWidget {
   final String title, subtitle, image, body, date, id;
@@ -44,7 +45,7 @@ class _NewsCardState extends State<NewsCard> {
     );
 
     final Future<Database> database = openDatabase(
-      p.join(await getDatabasesPath(), 'blogs.db'),
+      p.join(await getDatabasesPath(), 'colnewsblogger.db'),
       onCreate: (db, version) {
         return db.execute(
           "CREATE TABLE blogs(blogTitle TEXT, blogSubtitle TEXT, blogBody TEXT, blogImage TEXT, date TEXT)"
@@ -228,38 +229,47 @@ class _NewsCardState extends State<NewsCard> {
                   onPressed: () {
                     _savePost();
                     showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return SimpleDialog(
-                            elevation: 10,
-                            children: <Widget>[
-                              Center(
-                                child: Column(
-                                  children: <Widget>[
-                                    Text("Post Saved Successfully"),
-                                    RaisedButton(
-                                      elevation: 0,
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return SimpleDialog(
+                                    elevation: 10,
+                                    children: <Widget>[
+                                      Center(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Text(
+                                              "Post Saved Successfully",
+                                              style: TextStyle(
+                                                color: DynamicTheme.of(context).data.textTheme.subtitle.color
+                                              ),
+                                            ),
+                                            SizedBox(height: 20,),
+                                            RaisedButton(
+                                              elevation: 0,
+                                              child: Text(
+                                                "OK",
+                                                style:
+                                                    TextStyle(color: Colors.red),
+                                              ),
+                                              color: Colors.white,
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                    backgroundColor: DynamicTheme.of(context).data.backgroundColor,
+                                    title: Center(
                                       child: Text(
-                                        "OK",
-                                        style: TextStyle(color: Colors.red),
+                                        'Post Saved',
+                                        style: TextStyle(
+                                          color: DynamicTheme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black
+                                        ),
                                       ),
-                                      color: Colors.white,
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
                                     ),
-                                  ],
-                                ),
-                              )
-                            ],
-                            backgroundColor: Colors.white,
-                            title: Center(
-                              child: Text(
-                                'Post Saved',
-                                style: TextStyle(color: Colors.black),
-                              ),
-                            ),
-                          );
+                                  );
                         });
                   },
                 ),

@@ -10,10 +10,10 @@ class Blog {
 
   static toMap(Blog blog) {
     return {
-      'title': blog.blogTitle,
-      'subtitle': blog.blogSubtitle,
-      'body': blog.blogBody,
-      'image': blog.blogImage,
+      'blogTitle': blog.blogTitle,
+      'blogSubtitle': blog.blogSubtitle,
+      'blogBody': blog.blogBody,
+      'blogImage': blog.blogImage,
       'date': blog.date,
     };
   }
